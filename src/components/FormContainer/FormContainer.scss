@@ -1,0 +1,51 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 500px;
+    padding: 8px;
+}
+
+
+.pin-field {
+    border: 1px solid #d3d3d3;
+    border-right: none;
+    font-size: 2rem;
+    height: 4rem;
+    outline: none;
+    text-align: center;
+    transition-duration: .25s;
+    transition-property: color, border, box-shadow, -webkit-transform;
+    transition-property: color, border, box-shadow, transform;
+    transition-property: color, border, box-shadow, transform, -webkit-transform;
+    width: 4rem;
+}
+
+.pin-field:first-of-type {
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.pin-field:last-of-type {
+    border-radius: 0 0.5rem 0.5rem 0;
+    border-right: 1px solid #d3d3d3;
+}
+
+.pin-field:invalid {
+    -webkit-animation: shake 75ms linear 5;
+    animation: shake 75ms linear 5;
+    border-color: #dc3545;
+    box-shadow: 0 0 0.25rem rgba(220, 53, 69, .5);
+}
+
+.pin-field:invalid+.pin-field {
+    border-left-color: #dc3545;
+}
+
+button,
+input {
+    overflow: visible;
+}

@@ -4,7 +4,8 @@ import MainAppBar from "./components/MainAppBar/MainAppBar";
 import FormContainer from "./components/FormContainer/FormContainer";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import MapContainer from "./components/MapContainer/MapContainer";
+import MapContainer from './components/MapContainer/MapContainer';
+import ItemPopup from './components/ItemPopup/ItemPopup';
 
 function App() {
   const vm = useSelector((state) => state.global.viewMode);
@@ -12,8 +13,8 @@ function App() {
   return (
     <div className="App">
       <MainAppBar />
-      <FormContainer/>
-      <MapContainer/>
+      {vm === 'volunteer' && <FormContainer />}
+      <MapContainer />
     </div>
   );
 }

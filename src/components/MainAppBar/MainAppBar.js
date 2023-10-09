@@ -22,7 +22,7 @@ import FormatAlignJustifyIcon from "@mui/icons-material/FormatAlignJustify";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useSelector } from "react-redux";
-import { ViewModes, setViewMode } from "../../slices/globalSlice";
+import { ViewModes, setViewMode, setMarkerPosition } from "../../slices/globalSlice";
 
 function ToggleButtons() {
   const vm = useSelector((state) => state.global.viewMode);
@@ -36,6 +36,7 @@ function ToggleButtons() {
         ? ViewModes.VOLUNTEER
         : vm;
     dispatch(setViewMode(mode));
+    dispatch(setMarkerPosition(null));
   };
 
   return (

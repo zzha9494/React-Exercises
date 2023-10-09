@@ -36,6 +36,7 @@ export default function FormContainer() {
 
     const [activeStep, setActiveStep] = React.useState(0);
     const markerPosition = useSelector((state) => state.global.markerPosition);
+    const vm = useSelector((state) => state.global.viewMode);
     const dispatch = useDispatch();
     function reset() {
         dispatch(setMarkerPosition(null))
@@ -59,7 +60,7 @@ export default function FormContainer() {
 
 
     return (
-        <Modal open={markerPosition !== null} className="modal">
+        <Modal open={markerPosition !== null && vm === 'volunteer'} className="modal">
             <Paper elevation={3} className='main-container' sx={{ width: 800, height: 500, p: 1 }}>
                 <Stack direction='row' spacing={3} sx={{ m: 2 }} >
                     <Typography variant="h6" sx={{ p: 0, flex: 1 }}>

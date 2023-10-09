@@ -2,3 +2,22 @@
    
 
   }
+
+.searchPanelBox {
+  position: absolute;
+  top: 12px;
+  left: 205px;
+  background-color: #fff;
+}
+
+.mapFilterBox {
+  width: 100%;
+  position: fixed;
+  bottom: 20px;
+}
+
+.itemPopBox{
+  position: absolute;
+  align-items: center;
+  text-align: center;
+}

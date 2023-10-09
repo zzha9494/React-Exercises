@@ -1,0 +1,63 @@
+.mapFilterWrapper {
+    width: calc(100% - 100px);
+    height: 200px;
+    margin: 20px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.filterTitle {
+    font-size:x-large;
+    font-weight:700;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.categoryWrapper, .distanceWrapper {
+    margin-left: 80px;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.categoryLabel, .distanceLabel {
+    font-size: medium;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+.categories {
+    display: flex;
+    margin-top: 8px;
+}
+
+.categoryItems {
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    border-radius: 10px;
+    margin-right: 8px;
+}
+
+.categoryItems > span {
+    color: #fff;
+    font-size: small;
+    margin-left: 8px;
+}
+
+.distanceWrapper {
+    
+}
+
+.distanceLabel {
+    
+}
+
+.btnWrapper {
+    position: absolute;
+    right: 50px;
+    bottom: 30px;
+}

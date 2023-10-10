@@ -8,7 +8,8 @@ export const globalSlice = createSlice({
   name: "global",
   initialState: {
     viewMode: ViewModes.HOMELESS,
-    markerPosition: null
+    markerPosition: null,
+    // formInfo: null,
   },
   reducers: {
     setViewMode: (state, action) => {
@@ -16,10 +17,13 @@ export const globalSlice = createSlice({
     },
     setMarkerPosition: (state, action) => {
       state.markerPosition = action.payload;
-    }
+    },
+    // setFormState: (state, action) => {
+    //   state.formInfo = action.payload;
+    // },
   },
 });
 
-export const { setViewMode,setMarkerPosition } = globalSlice.actions;
+export const { setViewMode, setMarkerPosition } = globalSlice.actions;
 
 export default globalSlice.reducer;

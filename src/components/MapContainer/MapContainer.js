@@ -1,35 +1,35 @@
-import React, { useState } from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import React, { useState } from "react";
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
-import './MapContainer.scss';
-import { markerPosition, setMarkerPosition } from '../../slices/globalSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import MapFilter from '../MapFilter/MapFilter';
-import SearchPanel from '../SearchPanel/SearchPanel';
-import ItemPopup from '../ItemPopup/ItemPopup';
+import "./MapContainer.scss";
+import { markerPosition, setMarkerPosition } from "../../slices/globalSlice";
+import { useSelector, useDispatch } from "react-redux";
+import MapFilter from "../MapFilter/MapFilter";
+import SearchPanel from "../SearchPanel/SearchPanel";
+import ItemPopup from "../ItemPopup/ItemPopup";
 
 const containerStyle = {
-  width: '100%',
-  height: '92vh',
+  width: "100%",
+  height: "92vh",
 };
 
 const center = {
-  lat: -3.745,
-  lng: -38.523,
+  lat: -33.865143,
+  lng: 151.2099,
 };
 
 function MapContainer() {
   const markerPosition = useSelector((state) => state.global.markerPosition);
   const vm = useSelector((state) => state.global.viewMode);
   const [itemPopupOpen, setItemPopupOpen] = useState(false);
-  const id = itemPopupOpen ? 'simple-popover' : undefined;
+  const id = itemPopupOpen ? "simple-popover" : undefined;
 
   const [localPos, setLocalPos] = React.useState(null);
   const dispatch = useDispatch();
 
   const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyBw1ephcAXQqGUX7nDxGkw5E-3uIE_ZAno',
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyBw1ephcAXQqGUX7nDxGkw5E-3uIE_ZAno",
   });
 
   const [map, setMap] = React.useState(null);
@@ -72,7 +72,7 @@ function MapContainer() {
       >
         {localPos && <Marker position={localPos} aria-describedby={id} />}
         <>
-          {vm === 'homeless' && (
+          {vm === "homeless" && (
             <>
               <div className="searchPanelBox">
                 <SearchPanel />

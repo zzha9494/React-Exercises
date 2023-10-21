@@ -23,14 +23,19 @@ import ImageIcon from "@mui/icons-material/Image";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import { Modal } from "@mui/material";
 import { markerPosition, setMarkerPosition } from "../../slices/globalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Stack from "@mui/material/Stack";
+import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
 
 const steps = ["Basic Information", "Item(s) Detail", "Time & PIN code"];
+// dayjs.extend(timezone)
+// dayjs.extend(utc);
 
 export default function FormContainer() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -38,6 +43,7 @@ export default function FormContainer() {
   const markerPosition = useSelector((state) => state.global.markerPosition);
   const vm = useSelector((state) => state.global.viewMode);
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   function reset() {
     dispatch(setMarkerPosition(null));
     setActiveStep(0);
@@ -52,24 +58,75 @@ export default function FormContainer() {
         // check the form is valid, submit here
         console.log(formInfo);
         // for uploading image, currently do not know how it works.
-        formInfo = {
-          firstName: "John",
-          lastName: "West",
-          phone: "123456",
-          email: "test@test.com",
-          itemName: "water",
-          category: "Drinks",
-          description: "ddd",
-          time: "2023-10-09T13:05:00.000Z",
-          pin: "1111",
-          date: "2023-10-10T08:23:14.317Z",
-          position: {
-            lat: -33.8651650542566,
-            lng: 151.20987461480462,
+        // let testformInfo = {
+        //   firstName: "John",
+        //   lastName: "West",
+        //   phone: "123456",
+        //   email: "test@test.com",
+        //   itemName: "water",
+        //   category: "Drinks",
+        //   description: "ddd",
+        //   time: "2023-10-09T13:05:00.000Z",
+        //   pin: "1111",
+        //   date: "2023-10-10T08:23:14.317Z",
+        //   position: {
+        //     lat: -33.8651650542566,
+        //     lng: 151.20987461480462,
+        //   },
+        // };
+
+        let form = {
+          startTime: formInfo.time
+            .year(formInfo.date.year())
+            .month(formInfo.date.month())
+            .date(formInfo.date.date()), // this is UTC time
+          endTime: "2023-10-18T10:53:51.245+00:00",
+          modifyCode: formInfo.pin,
+          description: "sample description",
+          volunteer: {
+            firstName: formInfo.firstName,
+            secondName: formInfo.lastName,
+            email: formInfo.email,
+            phoneNumber: formInfo.phone,
           },
+          location: {
+            city: "sydney",
+            address: "2 test St",
+            locationX: formInfo.position.lat,
+            locationY: formInfo.position.lng,
+            color: "red",
+          },
+          items: [
+            {
+              name: formInfo.itemName,
+              number: 1,
+              description: formInfo.description,
+              category: formInfo.category,
+            },
+          ],
         };
+
+        fetch("/api/event/add", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form), // 将数据转为JSON字符串
+        })
+          .then((res) => {
+            if (res.status == 200) {
+              enqueueSnackbar("Event added successfully.", {
+                variant: "success",
+              });
+              reset();
+            } else {
+              enqueueSnackbar("Fail to add event.");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
-      reset();
     }
   };
 

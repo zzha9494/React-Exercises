@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import MapContainer from "./components/MapContainer/MapContainer";
 import ItemPopup from "./components/ItemPopup/ItemPopup";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
 
 const theme = createTheme({});
 function App() {
@@ -16,7 +17,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <MainAppBar />
-        {vm === "volunteer" && <FormContainer />}
+        <SnackbarProvider>
+          {vm === "volunteer" && <FormContainer />}
+        </SnackbarProvider>
         <MapContainer />
       </div>
     </ThemeProvider>

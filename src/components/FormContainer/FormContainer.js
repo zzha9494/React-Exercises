@@ -106,7 +106,7 @@ export default function FormContainer() {
           </IconButton>
         </Stack>
         <Box sx={{ width: "100%" }}>
-          <Stepper activeStep={activeStep}>
+          <Stepper activeStep={activeStep} sx={{ margin: "0 20px 0 20px" }}>
             {steps.map((label, index) => {
               const stepProps = {};
               const labelProps = {};

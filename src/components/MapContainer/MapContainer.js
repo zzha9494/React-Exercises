@@ -18,6 +18,45 @@ const center = {
   lng: 151.2099,
 };
 
+const mapStyles = [
+  {
+    featureType: "poi.business",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi.medical",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "transit",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi.attraction",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+];
+
 function MapContainer() {
   const markerPosition = useSelector((state) => state.global.markerPosition);
   const vm = useSelector((state) => state.global.viewMode);
@@ -68,7 +107,11 @@ function MapContainer() {
         onLoad={onLoad}
         onUnmount={onUnmount}
         onClick={handleMapClick}
+        clickableIcons={false}
         fullscreenControl={false}
+        options={{
+          styles: mapStyles,
+        }}
       >
         {localPos && <Marker position={localPos} aria-describedby={id} />}
         <>

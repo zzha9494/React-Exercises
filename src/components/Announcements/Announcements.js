@@ -44,11 +44,11 @@ export default function Announcements() {
         console.log("Received announcements:", announcements);
         setAnnouncements(
           announcements,
-          // announcements.sort((a, b) => {
-          //   const dateA = new Date(a.postTime);
-          //   const dateB = new Date(b.postTime);
-          //   return dateB - dateA;
-          // }),
+          announcements.sort((a, b) => {
+            const dateA = new Date(a.postTime);
+            const dateB = new Date(b.postTime);
+            return dateB - dateA;
+          }),
         );
         // 在这里处理响应数据
       } catch (error) {
@@ -129,7 +129,7 @@ export default function Announcements() {
                   <Typography variant="subtitle2">{item.content}</Typography>
                   &nbsp;
                   <Typography variant="caption" color="gray">
-                    {/* {format(new Date(item.postTime), "hh:mm:ss a, MMM d, yyyy")} */}
+                    {format(new Date(item.postTime), "hh:mm:ss a, MMM d, yyyy")}
                   </Typography>
                 </Stack>
               </ListItem>

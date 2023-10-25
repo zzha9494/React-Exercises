@@ -120,7 +120,9 @@ export default function FormContainer() {
               });
               reset();
             } else {
-              enqueueSnackbar("Fail to add event.");
+              enqueueSnackbar("Fail to add event.", {
+                variant: "warning",
+              });
             }
           })
           .catch((error) => {

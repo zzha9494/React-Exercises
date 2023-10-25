@@ -106,7 +106,7 @@ export default function FormContainer() {
           ],
         };
 
-        fetch("/api/event/add", {
+        fetch("http://localhost:8080/api/event/add", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

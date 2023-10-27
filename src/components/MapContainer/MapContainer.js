@@ -136,23 +136,6 @@ function MapContainer() {
     }
   };
 
-  // const request = require('request');
-  // const getEventsLocation = () => {
-  //   request(
-  //     {
-  //       url: 'http://localhost:8080/api/event/get',
-  //       method: 'GET',
-  //       json: true,
-  //       body: {},
-  //     },
-  //     function (err, res, body) {
-  //       if (!err && res.statusCode === 200) {
-  //         console.log(body);
-  //       }
-  //     }
-  //   );
-  // };
-
   useEffect(() => {
     if (vm === "homeless") getEventsLocation();
   }, [vm]);

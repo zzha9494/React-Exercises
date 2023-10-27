@@ -16,7 +16,30 @@ function ValueLabelComponent(props) {
   );
 }
 
-function MapFilter() {
+function MapFilter({ events, setEvents, setRadius }) {
+  const getEventsLocation = async (color) => {
+    try {
+      const response = await fetch("http://localhost:8080/api/event/get", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ color: color }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const events = await response.json();
+      const eventsArray = Object.keys(events).map((key) => events[key]);
+
+      console.log("events", eventsArray);
+      setEvents(eventsArray);
+    } catch (error) {
+      console.error("Error fetching announcements:", error);
+    }
+  };
   return (
     <Paper elevation={3} className="mapFilterWrapper">
       <Stack direction="row" spacing={8} sx={{ m: 2 }}>
@@ -32,13 +55,19 @@ function MapFilter() {
               variant="contained"
               startIcon={<ShoppingCartOutlinedIcon />}
               myColor={teal}
+              onClick={() => {
+                getEventsLocation("green");
+              }}
             >
-              Food
+              Water
             </ColorButton>
             <ColorButton
               variant="contained"
               startIcon={<ShoppingCartOutlinedIcon />}
               myColor={red}
+              onClick={() => {
+                getEventsLocation("red");
+              }}
             >
               Food
             </ColorButton>
@@ -101,6 +130,7 @@ function MapFilter() {
             variant="contained"
             sx={{ textTransform: "none" }}
             startIcon={<ShoppingCartOutlinedIcon />}
+            onClick={() => setEvents(events)}
           >
             Show all (34) items
           </Button>

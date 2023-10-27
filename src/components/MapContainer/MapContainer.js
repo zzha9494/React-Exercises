@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  Circle,
+} from "@react-google-maps/api";
 
 import "./MapContainer.scss";
 import { markerPosition, setMarkerPosition } from "../../slices/globalSlice";
@@ -67,6 +72,7 @@ function MapContainer() {
   const id = itemPopupOpen ? "simple-popover" : undefined;
   const id1 = sudoActionsOpen ? "simple-popover" : undefined;
   const [events, setEvents] = useState([]);
+  const [radius, setRadius] = useState(20);
   const [localPos, setLocalPos] = React.useState(null);
   const dispatch = useDispatch();
   const { isLoaded } = useJsApiLoader({
@@ -130,9 +136,6 @@ function MapContainer() {
       // 在这里处理响应数据
     } catch (error) {
       console.error("Error fetching announcements:", error);
-      // Message.error('Error fetching announcements', {
-      //   variant: 'info',
-      // });
     }
   };
 
@@ -175,10 +178,14 @@ function MapContainer() {
           {vm === "homeless" && (
             <>
               <div className="searchPanelBox">
-                <SearchPanel />
+                <SearchPanel setEvents={setEvents} />
               </div>
               <div className="mapFilterBox">
-                <MapFilter />
+                <MapFilter
+                  events={events}
+                  setEvents={setEvents}
+                  setRadius={setRadius}
+                />
               </div>
               <div className="itemPopBox">
                 <ItemPopup

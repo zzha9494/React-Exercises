@@ -137,6 +137,7 @@ export default function FormContainer() {
               number: 1,
               description: formInfo.description,
               category: formInfo.category,
+              imageBase64: formInfo.image,
             },
           ],
         };
@@ -231,6 +232,7 @@ export default function FormContainer() {
             <StepTwo
               formInfo={formInfo}
               handleFieldChange={handleFieldChange}
+              setFormInfo={setFormInfo}
             />
           )}
           {activeStep === 2 && (
@@ -315,7 +317,7 @@ function StepOne({ formInfo, handleFieldChange }) {
   );
 }
 
-function StepTwo({ formInfo, handleFieldChange }) {
+function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
   const categories = [
     {
       value: "Foods",
@@ -407,12 +409,11 @@ function StepTwo({ formInfo, handleFieldChange }) {
               alignItems: "center",
             }}
           >
-            {/* <CardMedia
-                            component="img"
-                            image="https://img.redbull.com/images/c_limit,w_1500,h_1000,f_auto,q_auto/redbullcom/2020/4/28/bjoyslzjb3uxqyg82uz2/minecraft"
-                            alt="green iguana"
-                        /> */}
-            <ImageIcon sx={{ fontSize: 100, color: "#d3d3d3" }} />
+            {formInfo.url ? (
+              <img src={formInfo.url} alt="Uploaded photo" />
+            ) : (
+              <ImageIcon sx={{ fontSize: 100, color: "#d3d3d3" }} />
+            )}
           </Card>
 
           <Button
@@ -422,7 +423,26 @@ function StepTwo({ formInfo, handleFieldChange }) {
             sx={{ width: 150 }}
           >
             Upload file
-            <VisuallyHiddenInput type="file" />
+            <VisuallyHiddenInput
+              type="file"
+              onChange={(event) => {
+                const file = event.target.files[0];
+                const url = URL.createObjectURL(file);
+
+                const reader = new FileReader();
+                reader.onload = () => {
+                  const base64String = reader.result;
+                  setFormInfo({
+                    ...formInfo,
+                    // file: file,
+                    url: url,
+                    image: base64String,
+                  });
+                };
+
+                reader.readAsDataURL(file);
+              }}
+            />
           </Button>
         </Grid>
       </Grid>

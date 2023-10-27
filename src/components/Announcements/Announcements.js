@@ -41,7 +41,7 @@ export default function Announcements() {
 
         const announcements = await response.json(); // 解析JSON响应
 
-        console.log("Received announcements:", announcements);
+        // console.log("Received announcements:", announcements);
         setAnnouncements(
           announcements,
           announcements.sort((a, b) => {

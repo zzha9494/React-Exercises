@@ -50,13 +50,54 @@ export default function FormContainer() {
     setFormInfo({});
   }
   const handleNext = () => {
+    if (activeStep == 0) {
+      if (
+        !(
+          formInfo.firstName &&
+          formInfo.lastName &&
+          formInfo.phone &&
+          formInfo.email
+        )
+      ) {
+        enqueueSnackbar("Please input information.", {
+          variant: "info",
+        });
+        return;
+      }
+    } else if (activeStep == 1) {
+      if (!(formInfo.itemName && formInfo.category && formInfo.description)) {
+        enqueueSnackbar("Please input information.", {
+          variant: "info",
+        });
+        return;
+      }
+    } else if (activeStep == 2) {
+      if (!(formInfo.time && formInfo.pin)) {
+        enqueueSnackbar("Please input information.", {
+          variant: "info",
+        });
+        return;
+      }
+    }
+
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
     if (activeStep + 1 === steps.length) {
       formInfo.date = formInfo.date ? formInfo.date : new dayjs();
       formInfo.position = markerPosition;
+
+      let startTime = formInfo.time
+        .year(formInfo.date.year())
+        .month(formInfo.date.month())
+        .date(formInfo.date.date());
+      if (startTime < new Date()) {
+        enqueueSnackbar("Time invalid.", {
+          variant: "info",
+        });
+        return;
+      }
+
       if (true) {
-        // check the form is valid, submit here
-        console.log(formInfo);
         // for uploading image, currently do not know how it works.
         // let testformInfo = {
         //   firstName: "John",
@@ -76,13 +117,10 @@ export default function FormContainer() {
         // };
 
         let form = {
-          startTime: formInfo.time
-            .year(formInfo.date.year())
-            .month(formInfo.date.month())
-            .date(formInfo.date.date()), // this is UTC time
-          endTime: "2023-10-18T10:53:51.245+00:00",
+          startTime: startTime,
+          // endTime: "2023-10-18T10:53:51.245+00:00",
           modifyCode: formInfo.pin,
-          description: "sample description",
+          // description: "sample description",
           volunteer: {
             firstName: formInfo.firstName,
             secondName: formInfo.lastName,
@@ -90,11 +128,8 @@ export default function FormContainer() {
             phoneNumber: formInfo.phone,
           },
           location: {
-            city: "sydney",
-            address: "2 test St",
             locationX: formInfo.position.lat,
             locationY: formInfo.position.lng,
-            color: "red",
           },
           items: [
             {
@@ -106,12 +141,17 @@ export default function FormContainer() {
           ],
         };
 
+        setFormInfo((formInfo) => {
+          const { pin, ...rest } = formInfo;
+          return rest;
+        });
+
         fetch("http://localhost:8080/api/event/add", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(form), // 将数据转为JSON字符串
+          body: JSON.stringify(form),
         })
           .then((res) => {
             if (res.status == 200) {
@@ -120,13 +160,14 @@ export default function FormContainer() {
               });
               reset();
             } else {
-              enqueueSnackbar("Fail to add event.", {
-                variant: "warning",
-              });
+              throw new Error("Network response was not ok");
             }
           })
           .catch((error) => {
             console.error(error);
+            enqueueSnackbar("Fail to add event.", {
+              variant: "warning",
+            });
           });
       }
     }
@@ -229,6 +270,7 @@ function StepOne({ formInfo, handleFieldChange }) {
             sx={{ width: "90%", m: 1 }}
             value={formInfo?.firstName}
             onChange={handleFieldChange}
+            required
           />
           <TextField
             id="lastName"
@@ -237,6 +279,7 @@ function StepOne({ formInfo, handleFieldChange }) {
             sx={{ width: "90%", m: 1 }}
             value={formInfo?.lastName}
             onChange={handleFieldChange}
+            required
           />
         </Grid>
         <Grid
@@ -255,6 +298,7 @@ function StepOne({ formInfo, handleFieldChange }) {
             sx={{ width: "90%", m: 1 }}
             value={formInfo?.phone}
             onChange={handleFieldChange}
+            required
           />
           <TextField
             id="email"
@@ -263,6 +307,7 @@ function StepOne({ formInfo, handleFieldChange }) {
             sx={{ width: "90%", m: 1 }}
             value={formInfo?.email}
             onChange={handleFieldChange}
+            required
           />
         </Grid>
       </Grid>
@@ -313,6 +358,7 @@ function StepTwo({ formInfo, handleFieldChange }) {
             sx={{ width: "90%", m: 1 }}
             value={formInfo?.itemName}
             onChange={handleFieldChange}
+            required
           />
           <TextField
             // id="category"
@@ -322,6 +368,7 @@ function StepTwo({ formInfo, handleFieldChange }) {
             sx={{ width: "90%", m: 1 }}
             value={formInfo?.category}
             onChange={handleFieldChange}
+            required
           >
             {categories.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -331,12 +378,13 @@ function StepTwo({ formInfo, handleFieldChange }) {
           </TextField>
           <TextField
             id="description"
-            label="Description"
+            label="Description and Address"
             multiline
             rows={5}
             sx={{ width: "90%", m: 1 }}
             value={formInfo?.description}
             onChange={handleFieldChange}
+            required
           />
         </Grid>
         <Grid

@@ -11,7 +11,7 @@
 }
 
 .mapFilterBox {
-  width: 100%;
+  width: calc(100% - 100px);
   position: fixed;
   bottom: 20px;
 }

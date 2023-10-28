@@ -46,7 +46,13 @@ function SearchPanel({ setEvents }) {
         id="search"
         type="search"
         InputProps={{
-          startAdornment: <SvgIcon component={SearchIcon} inheritViewBox />,
+          startAdornment: (
+            <SvgIcon
+              component={SearchIcon}
+              inheritViewBox
+              onClick={() => getEventsLocation(searchTerm)}
+            />
+          ),
         }}
         placeholder="Search"
         fullWidth

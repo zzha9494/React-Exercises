@@ -3,7 +3,7 @@ import "./MapFilter.scss";
 import { Button, Paper, Stack, Typography, Box, Tooltip } from "@mui/material";
 import Slider from "@mui/material/Slider";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { teal, red, indigo, blue, grey } from "@mui/material/colors";
+import { teal, red, indigo, blue, grey, yellow } from "@mui/material/colors";
 import ColorButton from "../ColorButton";
 
 function ValueLabelComponent(props) {
@@ -59,7 +59,7 @@ function MapFilter({ events, setEvents, setRadius }) {
                 getEventsLocation("green");
               }}
             >
-              Water
+              Drinks
             </ColorButton>
             <ColorButton
               variant="contained"
@@ -69,33 +69,23 @@ function MapFilter({ events, setEvents, setRadius }) {
                 getEventsLocation("red");
               }}
             >
-              Food
+              Foods
             </ColorButton>
-            <ColorButton
-              variant="contained"
-              startIcon={<ShoppingCartOutlinedIcon />}
-              myColor={indigo}
-            >
-              Food
-            </ColorButton>
-          </Stack>
-          <Typography sx={{ p: 0, flex: 1, fontWeight: "600" }}>
-            Category
-          </Typography>
-          <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
             <ColorButton
               variant="contained"
               startIcon={<ShoppingCartOutlinedIcon />}
               myColor={blue}
             >
-              Food
+              Medical Supplies
             </ColorButton>
+          </Stack>
+          <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
             <ColorButton
               variant="contained"
               startIcon={<ShoppingCartOutlinedIcon />}
-              myColor={grey}
+              myColor={yellow}
             >
-              Food
+              Others
             </ColorButton>
           </Stack>
         </Box>

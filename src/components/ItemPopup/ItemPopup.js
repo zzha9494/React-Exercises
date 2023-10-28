@@ -1,10 +1,28 @@
-import React from 'react';
-import Popover from '@mui/material/Popover';
-import { SvgIcon } from '@mui/material';
-import { ReactComponent as ClockIcon } from '../../assets/clock.svg';
-import { ReactComponent as CloseIcon } from '../../assets/close-circle.svg';
-import waterImg from '../../assets/water.jpg';
-import './ItemPopup.scss';
+import React from "react";
+import {
+  Popover,
+  Box,
+  styled,
+  Paper,
+  Stack,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+import CloseIcon from "@mui/icons-material/Close";
+import waterImg from "../../assets/water.jpg";
+import "./ItemPopup.scss";
+
+const Reminder = styled(Paper)(({ theme, myColor }) => ({
+  backgroundColor: myColor,
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  display: "flex",
+  alignItems: "center",
+  color: "#fff",
+  fontWeight: 600,
+}));
 
 function ItemPopup({ open, onClose, id }) {
   return (
@@ -13,54 +31,55 @@ function ItemPopup({ open, onClose, id }) {
       open={open}
       onClose={onClose}
       anchorOrigin={{
-        vertical: 'center',
-        horizontal: 'center',
+        vertical: "center",
+        horizontal: "center",
       }}
       transformOrigin={{
-        vertical: 'center',
-        horizontal: 'center',
+        vertical: "center",
+        horizontal: "center",
       }}
     >
-      <div className="itemPopupWrapper">
-        <div className="popupHeader">
-          <div className="reminder">
-            <SvgIcon
-              component={ClockIcon}
-              inheritViewBox
-              sx={{ color: '#fff', fontSize: '18px' }}
-            />
-            <span>Expiring in 1 day</span>
-          </div>
-          <div className="closeIcon" onClick={onClose}>
-            <SvgIcon
-              component={CloseIcon}
-              inheritViewBox
-              sx={{ color: '#000', fontSize: '40px' }}
-            />
-          </div>
-        </div>
-        <div className="popupContent">
-          <div className="itemImage">
+      <Box className="itemPopupWrapper">
+        <Stack direction="row" spacing={14} mb={1}>
+          <Reminder myColor="red">
+            <AccessTimeOutlinedIcon />
+            <Typography variant="body2">Expiring in 1 day</Typography>
+          </Reminder>
+          <IconButton aria-label="delete" onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+
+        <Stack spacing={1}>
+          <Box className="itemImage">
             <img src={waterImg} alt="" />
-          </div>
-          <div className="itemInfo">
-            <div className="itemLabel">Item name</div>
-            <div className="itemDesc">AUSTRALIAN NATURAL SPRING WATER</div>
-          </div>
-          <div className="itemInfo">
-            <div className="itemLabel">Quantity</div>
-            <div className="itemDesc">1 BOX</div>
-          </div>
-          <div className="itemInfo">
-            <div className="itemLabel">Location</div>
-            <div className="itemDesc">201 Sample St</div>
-          </div>
-          <div className="itemInfo">
-            <div className="itemLabel">Available</div>
-            <div className="itemDesc">17:00 - 18:30 August 28</div>
-          </div>
-        </div>
-      </div>
+          </Box>
+          <Box>
+            <Typography variant="body2">Item name</Typography>
+            <Typography variant="body1" sx={{ fontWeight: 600 }}>
+              AUSTRALIAN NATURAL SPRING WATER
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="body2">Quantity</Typography>
+            <Typography variant="body1" sx={{ fontWeight: 600 }}>
+              1 BOX
+            </Typography>
+          </Box>
+          <Box className="itemInfo">
+            <Typography variant="body2">Location</Typography>
+            <Typography variant="body1" sx={{ fontWeight: 600 }}>
+              201 Sample St
+            </Typography>
+          </Box>
+          <Box className="itemInfo">
+            <Typography variant="body2">Available</Typography>
+            <Typography variant="body1" sx={{ fontWeight: 600 }}>
+              17:00 - 18:30 August 28
+            </Typography>
+          </Box>
+        </Stack>
+      </Box>
     </Popover>
   );
 }

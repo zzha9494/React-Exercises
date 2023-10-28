@@ -72,7 +72,17 @@ function MapContainer() {
   const id = itemPopupOpen ? "simple-popover" : undefined;
   const id1 = sudoActionsOpen ? "simple-popover" : undefined;
   const [events, setEvents] = useState([]);
-  const [radius, setRadius] = useState(20);
+  const [radius, setRadius] = useState(0);
+  const [shouldRenderCircle, setShouldRenderCircle] = useState(false);
+
+  useEffect(() => {
+    const delayRender = setTimeout(() => {
+      setShouldRenderCircle(true);
+    }, 500);
+
+    return () => clearTimeout(delayRender);
+  }, []);
+
   const [localPos, setLocalPos] = React.useState(null);
   const dispatch = useDispatch();
   const { isLoaded } = useJsApiLoader({
@@ -96,6 +106,7 @@ function MapContainer() {
 
   const handleMapClick = (e) => {
     setLocalPos({ lat: e.latLng.lat(), lng: e.latLng.lng() });
+    console.log({ lat: e.latLng.lat(), lng: e.latLng.lng() });
     setItemPopupOpen(true);
     setTimeout(() => {
       dispatch(setMarkerPosition({ lat: e.latLng.lat(), lng: e.latLng.lng() }));
@@ -158,6 +169,19 @@ function MapContainer() {
           styles: mapStyles,
         }}
       >
+        {shouldRenderCircle && (
+          <Circle
+            center={center}
+            radius={radius * 10}
+            options={{
+              strokeColor: "#FF0000",
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: "#FF0000",
+              fillOpacity: 0.1,
+            }}
+          />
+        )}
         {localPos && <Marker position={localPos} aria-describedby={id} />}
         {events &&
           events.map((event) => {

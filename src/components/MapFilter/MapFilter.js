@@ -109,10 +109,11 @@ function MapFilter({ events, setEvents, setRadius }) {
               valueLabel: ValueLabelComponent,
             }}
             aria-label="custom thumb label"
-            defaultValue={20}
+            defaultValue={0}
             sx={{ width: "200px" }}
+            onChange={(e) => setRadius(e.target.value)}
           />
-          <Typography gutterBottom sx={{ p: 0, flex: 1, fontWeight: "600" }}>
+          {/* <Typography gutterBottom sx={{ p: 0, flex: 1, fontWeight: '600' }}>
             Distance
           </Typography>
           <Slider
@@ -122,15 +123,15 @@ function MapFilter({ events, setEvents, setRadius }) {
             }}
             aria-label="custom thumb label"
             defaultValue={20}
-            sx={{ width: "200px" }}
-          />
+            sx={{ width: '200px' }}
+          /> */}
         </Box>
         <Box className="btnWrapper">
           <Button
             variant="contained"
             sx={{ textTransform: "none" }}
             startIcon={<ShoppingCartOutlinedIcon />}
-            onClick={() => setEvents(events)}
+            onClick={() => window.location.reload}
           >
             Show all (34) items
           </Button>

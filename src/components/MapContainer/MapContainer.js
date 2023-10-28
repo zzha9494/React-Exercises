@@ -159,7 +159,7 @@ function MapContainer() {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={10}
+        zoom={12}
         onLoad={onLoad}
         onUnmount={onUnmount}
         onClick={handleMapClick}
@@ -172,7 +172,7 @@ function MapContainer() {
         {shouldRenderCircle && (
           <Circle
             center={center}
-            radius={radius * 10}
+            radius={radius * 140}
             options={{
               strokeColor: "#FF0000",
               strokeOpacity: 0.8,

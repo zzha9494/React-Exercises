@@ -75,6 +75,9 @@ function MapFilter({ events, setEvents, setRadius }) {
               variant="contained"
               startIcon={<ShoppingCartOutlinedIcon />}
               myColor={blue}
+              onClick={() => {
+                getEventsLocation("blue");
+              }}
             >
               Medical Supplies
             </ColorButton>
@@ -84,6 +87,9 @@ function MapFilter({ events, setEvents, setRadius }) {
               variant="contained"
               startIcon={<ShoppingCartOutlinedIcon />}
               myColor={yellow}
+              onClick={() => {
+                getEventsLocation("yellow");
+              }}
             >
               Others
             </ColorButton>
@@ -123,7 +129,7 @@ function MapFilter({ events, setEvents, setRadius }) {
             startIcon={<ShoppingCartOutlinedIcon />}
             onClick={() => getEventsLocation()}
           >
-            Show all (34) items
+            Show all items
           </Button>
         </Box>
       </Stack>

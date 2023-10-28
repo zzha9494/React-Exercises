@@ -24,7 +24,7 @@ function MapFilter({ events, setEvents, setRadius }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ color: color }),
+        body: color ? JSON.stringify({ color: color }) : JSON.stringify({}),
       });
 
       if (!response.ok) {
@@ -121,7 +121,7 @@ function MapFilter({ events, setEvents, setRadius }) {
             variant="contained"
             sx={{ textTransform: "none" }}
             startIcon={<ShoppingCartOutlinedIcon />}
-            onClick={() => window.location.reload}
+            onClick={() => getEventsLocation()}
           >
             Show all (34) items
           </Button>

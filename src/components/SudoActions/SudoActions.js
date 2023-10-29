@@ -26,6 +26,7 @@ export default function SudoActions({
       modify_code: formInfo.pin,
       event_id: eventId,
     };
+    setFormInfo({ pin: "" });
 
     try {
       const response = await fetch(url, {
@@ -77,7 +78,7 @@ export default function SudoActions({
         };
         getEventsLocation();
       } else {
-        enqueueSnackbar("Unknown error.", { variant: "error" });
+        enqueueSnackbar("Wrong Pin.", { variant: "error" });
       }
     } catch (error) {
       console.log(error);
@@ -92,6 +93,7 @@ export default function SudoActions({
       modify_code: formInfo.pin,
       event_id: eventId,
     };
+    setFormInfo({ pin: "" });
 
     fetch(url, {
       method: "PUT",
@@ -112,6 +114,7 @@ export default function SudoActions({
       })
       .then((form) => {
         setFormModified(form);
+        setFormInfo({ pin: "" });
         onClose();
         setFormOpen(true);
       })
@@ -142,7 +145,12 @@ export default function SudoActions({
         <Typography variant="subtitle2" sx={{ m: 1 }}>
           Please enter your PIN:
         </Typography>
-        <IconButton onClick={onClose}>
+        <IconButton
+          onClick={() => {
+            setFormInfo({ pin: "" });
+            onClose();
+          }}
+        >
           <ClearIcon />
         </IconButton>
       </Stack>

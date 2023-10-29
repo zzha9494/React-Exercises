@@ -203,7 +203,7 @@ export default function FormContainer({
           return rest;
         });
         let URL = formInfo.eventId
-          ? "http://localhost:8080/api/event/update"
+          ? "http://localhost:8080/api/event/updateEvent"
           : "http://localhost:8080/api/event/add";
         let method = formInfo.eventId ? "PUT" : "POST";
         fetch(URL, {

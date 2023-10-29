@@ -423,6 +423,8 @@ function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
     },
   ];
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -513,13 +515,27 @@ function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
               type="file"
               onChange={(event) => {
                 const file = event.target.files[0];
+                if (!file.type.startsWith("image/")) {
+                  enqueueSnackbar("File is not an image.", {
+                    variant: "warning",
+                  });
+                  event.target.value = "";
+                  return;
+                }
+
                 const reader = new FileReader();
                 reader.onload = () => {
                   const base64String = reader.result;
-                  setFormInfo({
-                    ...formInfo,
-                    image: base64String,
-                  });
+                  if (base64String.length > 9000000) {
+                    enqueueSnackbar("Image size is too large.", {
+                      variant: "warning",
+                    });
+                  } else {
+                    setFormInfo({
+                      ...formInfo,
+                      image: base64String,
+                    });
+                  }
                 };
 
                 reader.readAsDataURL(file);

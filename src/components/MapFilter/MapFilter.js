@@ -39,7 +39,6 @@ function MapFilter({ events1, setEvents1, setRadius }) {
       }
 
       const res = await response.json();
-      console.log(Object.values(res));
 
       dispatch(setEvents(Object.values(res)));
     } catch (error) {

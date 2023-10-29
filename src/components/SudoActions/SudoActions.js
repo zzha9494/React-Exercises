@@ -68,7 +68,6 @@ export default function SudoActions({
             }
 
             const res = await response.json();
-            console.log(Object.values(res));
 
             dispatch(setEvents(Object.values(res)));
             onClose();

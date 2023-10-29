@@ -93,7 +93,6 @@ export default function FormContainer({
       }
 
       const res = await response.json();
-      console.log(Object.values(res));
 
       dispatch(setEvents(Object.values(res)));
     } catch (error) {

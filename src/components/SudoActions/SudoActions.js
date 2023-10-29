@@ -6,6 +6,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { enqueueSnackbar } from "notistack";
+import { useDispatch } from "react-redux";
+import { setEvents } from "../../slices/globalSlice";
 export default function SudoActions({
   id,
   eventId,
@@ -15,6 +17,7 @@ export default function SudoActions({
   setFormOpen,
 }) {
   const [formInfo, setFormInfo] = useState({ pin: "" });
+  const dispatch = useDispatch();
 
   async function handleDelete() {
     const url = "http://localhost:8080/api/event/delete";
@@ -44,6 +47,35 @@ export default function SudoActions({
             variant: "error",
           });
         }
+        const getEventsLocation = async (color) => {
+          try {
+            const response = await fetch(
+              "http://localhost:8080/api/event/get",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: color
+                  ? JSON.stringify({ color: color })
+                  : JSON.stringify({}),
+              },
+            );
+
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+
+            const res = await response.json();
+            console.log(Object.values(res));
+
+            dispatch(setEvents(Object.values(res)));
+            onClose();
+          } catch (error) {
+            console.error("Error fetching announcements:", error);
+          }
+        };
+        getEventsLocation();
       } else {
         enqueueSnackbar("Unknown error.", { variant: "error" });
       }

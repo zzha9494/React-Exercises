@@ -60,7 +60,7 @@ export default function FormContainer({
         category: formModified.items[0].category,
         description: formModified.items[0].description,
         time: formModified.startTime,
-
+        image: formModified.item[0].imageBase64,
         date: formModified.startTime,
         position: {
           lat: formModified.location.latitude,
@@ -449,7 +449,7 @@ function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
             }}
           >
             {formInfo.url ? (
-              <img src={formInfo.url} alt="Uploaded photo" />
+              <img src={formInfo.image} alt="Uploaded photo" />
             ) : (
               <ImageIcon sx={{ fontSize: 100, color: "#d3d3d3" }} />
             )}
@@ -466,7 +466,7 @@ function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
               type="file"
               onChange={(event) => {
                 const file = event.target.files[0];
-                const url = URL.createObjectURL(file);
+                // const url = URL.createObjectURL(file);
 
                 const reader = new FileReader();
                 reader.onload = () => {
@@ -474,7 +474,7 @@ function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
                   setFormInfo({
                     ...formInfo,
                     // file: file,
-                    url: url,
+                    // url: url,
                     image: base64String,
                   });
                 };

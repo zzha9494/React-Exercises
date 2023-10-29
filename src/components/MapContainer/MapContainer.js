@@ -84,7 +84,7 @@ function MapContainer() {
   const [formModified, setFormModified] = useState(null);
   const [formOpen, setFormOpen] = useState(false);
   const dispatch = useDispatch();
-  const blueIconUrl = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+  const blueIconUrl = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
 
   useEffect(() => {
     const delayRender = setTimeout(() => {
@@ -198,14 +198,19 @@ function MapContainer() {
             }}
           />
         )}
-        {localPos && <Marker position={localPos} aria-describedby={id} />}
+        {localPos && (
+          <Marker
+            position={localPos}
+            aria-describedby={id}
+            icon={blueIconUrl}
+          />
+        )}
         {events &&
           events.map((event) => {
             return (
               <Marker
                 position={{ lat: event.latitude, lng: event.longitude }}
                 aria-describedby={id1}
-                icon={blueIconUrl}
                 onClick={() => {
                   if (vm === "volunteer") {
                     setsudoActionsOpen(true);

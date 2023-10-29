@@ -60,15 +60,15 @@ export default function FormContainer({
         phone: formModified.volunteer.phoneNumber,
         email: formModified.volunteer.email,
         address: formModified.location.address,
-        event_description: formModified.event_description,
+        event_description: formModified.description,
         itemName: formModified.items[0].name,
         category: formModified.items[0].category,
         description: formModified.items[0].description,
-        time: formModified.startTime,
-        // image: formModified.item[0].imageBase64,
-        date: formModified.startTime,
-        endDate: formModified.endTime,
-        endTime: formModified.endTime,
+        time: new dayjs(formModified.startTime),
+        image: formModified.items[0].imageBase64,
+        date: new dayjs(formModified.startTime),
+        endDate: new dayjs(formModified.endTime),
+        endTime: new dayjs(formModified.endTime),
         position: {
           lat: formModified.location.latitude,
           lng: formModified.location.longitude,
@@ -532,15 +532,15 @@ function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
               type="file"
               onChange={(event) => {
                 const file = event.target.files[0];
-                // const url = URL.createObjectURL(file);
+                const url = URL.createObjectURL(file);
 
                 const reader = new FileReader();
                 reader.onload = () => {
                   const base64String = reader.result;
                   setFormInfo({
                     ...formInfo,
-                    // file: file,
-                    // url: url,
+                    file: file,
+                    url: url,
                     image: base64String,
                   });
                 };

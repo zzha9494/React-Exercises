@@ -48,6 +48,31 @@ export default function FormContainer({
   const vm = useSelector((state) => state.global.viewMode);
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    if (formModified) {
+      setFormInfo({
+        firstName: formModified.volunteer.firstName,
+        lastName: formModified.volunteer.secondName,
+        phone: formModified.volunteer.phoneNumber,
+        email: formModified.volunteer.email,
+        itemName: formModified.items[0].name,
+        category: formModified.items[0].category,
+        description: formModified.items[0].description,
+        time: formModified.startTime,
+
+        date: formModified.startTime,
+        position: {
+          lat: formModified.location.latitude,
+          lng: formModified.location.longitude,
+        },
+        eventId: eventId,
+      });
+
+      setFormModified(null);
+    }
+  }, []);
+
   function reset() {
     dispatch(setMarkerPosition(null));
     setActiveStep(0);
@@ -88,7 +113,7 @@ export default function FormContainer({
 
     if (activeStep + 1 === steps.length) {
       formInfo.date = formInfo.date ? formInfo.date : new dayjs();
-      formInfo.position = markerPosition;
+      formInfo.position ? formInfo.position : markerPosition;
 
       let startTime = formInfo.time
         .year(formInfo.date.year())
@@ -132,8 +157,8 @@ export default function FormContainer({
             phoneNumber: formInfo.phone,
           },
           location: {
-            locationX: formInfo.position.lat,
-            locationY: formInfo.position.lng,
+            latitude: formInfo.position.lat,
+            longitude: formInfo.position.lng,
           },
           items: [
             {
@@ -150,9 +175,12 @@ export default function FormContainer({
           const { pin, ...rest } = formInfo;
           return rest;
         });
-
-        fetch("http://localhost:8080/api/event/add", {
-          method: "POST",
+        let URL = formInfo.eventId
+          ? "http://localhost:8080/api/event/update"
+          : "http://localhost:8080/api/event/add";
+        let method = formInfo.eventId ? "PUT" : "POST";
+        fetch(URL, {
+          method: method,
           headers: {
             "Content-Type": "application/json",
           },

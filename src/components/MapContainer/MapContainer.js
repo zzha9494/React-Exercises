@@ -75,6 +75,7 @@ function MapContainer() {
   const [events, setEvents] = useState([]);
   const [radius, setRadius] = useState(0);
   const [shouldRenderCircle, setShouldRenderCircle] = useState(false);
+  const [formModified, setFormModified] = useState(null);
 
   useEffect(() => {
     const delayRender = setTimeout(() => {
@@ -222,7 +223,13 @@ function MapContainer() {
             </>
           )}
 
-          {vm === "volunteer" && <FormContainer />}
+          {vm === "volunteer" && (
+            <FormContainer
+              eventId={selectedEventId}
+              formModified={formModified}
+              setFormModified={setFormModified}
+            />
+          )}
 
           {vm === "volunteer" && (
             <SudoActions
@@ -230,6 +237,7 @@ function MapContainer() {
               eventId={selectedEventId}
               open={sudoActionsOpen}
               onClose={handleSudoActionsPopupClose}
+              setFormModified={setFormModified}
             />
           )}
         </>

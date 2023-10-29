@@ -37,7 +37,11 @@ const steps = ["Basic Information", "Item(s) Detail", "Time & PIN code"];
 // dayjs.extend(timezone)
 // dayjs.extend(utc);
 
-export default function FormContainer() {
+export default function FormContainer({
+  eventId,
+  formModified,
+  setFormModified,
+}) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [formInfo, setFormInfo] = React.useState({});
   const markerPosition = useSelector((state) => state.global.markerPosition);

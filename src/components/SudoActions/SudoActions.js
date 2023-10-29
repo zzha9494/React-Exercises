@@ -6,7 +6,13 @@ import ClearIcon from "@mui/icons-material/Clear";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { enqueueSnackbar } from "notistack";
-export default function SudoActions({ id, eventId, open, onClose }) {
+export default function SudoActions({
+  id,
+  eventId,
+  open,
+  onClose,
+  setFormModified,
+}) {
   const [formInfo, setFormInfo] = useState({ pin: "" });
 
   async function handleDelete() {
@@ -45,6 +51,46 @@ export default function SudoActions({ id, eventId, open, onClose }) {
     }
   }
 
+  const handleModify = () => {
+    setFormModified(null);
+    const url = "http://localhost:8080/api/event/checkCode";
+
+    const data = {
+      modify_code: formInfo.pin,
+      event_id: eventId,
+    };
+
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        if (res.status == 200) {
+          enqueueSnackbar("Pin validate successfully.", {
+            variant: "success",
+          });
+          return res.json();
+        } else {
+          throw new Error("Wrong Pin.");
+        }
+      })
+      .then((form) => {
+        // set the form here
+        setFormModified(form);
+        // close
+        onClose();
+      })
+      .catch((error) => {
+        console.error(error);
+        enqueueSnackbar("Fail to modify event.", {
+          variant: "warning",
+        });
+      });
+  };
+
   return (
     <Popover
       id={id}
@@ -82,7 +128,7 @@ export default function SudoActions({ id, eventId, open, onClose }) {
         <IconButton disabled={formInfo.pin.length !== 4} onClick={handleDelete}>
           <DeleteOutlineIcon />
         </IconButton>
-        <IconButton disabled={formInfo.pin.length !== 4}>
+        <IconButton disabled={formInfo.pin.length !== 4} onClick={handleModify}>
           <DriveFileRenameOutlineIcon />
         </IconButton>
       </Stack>

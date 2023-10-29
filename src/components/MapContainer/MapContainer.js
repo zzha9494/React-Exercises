@@ -69,7 +69,6 @@ const mapStyles = [
 ];
 
 function MapContainer() {
-  const markerPosition = useSelector((state) => state.global.markerPosition);
   const vm = useSelector((state) => state.global.viewMode);
   const [itemPopupOpen, setItemPopupOpen] = useState(false);
   const [sudoActionsOpen, setsudoActionsOpen] = useState(false);
@@ -122,6 +121,7 @@ function MapContainer() {
         setItemPopupOpen(true);
         setselectedId(e.id);
       }
+      dispatch(setMarkerPosition({ lat: e.latLng.lat(), lng: e.latLng.lng() }));
     }
   };
 
@@ -165,7 +165,7 @@ function MapContainer() {
     <div className="google-map full-screen-map">
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={center}
+        center={localPos}
         zoom={12}
         onLoad={onLoad}
         onUnmount={onUnmount}
@@ -178,7 +178,7 @@ function MapContainer() {
       >
         {shouldRenderCircle && (
           <Circle
-            center={center}
+            center={localPos}
             radius={radius * 140}
             options={{
               clickable: false,

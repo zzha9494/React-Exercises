@@ -82,6 +82,7 @@ function MapContainer() {
   const [radius, setRadius] = useState(0);
   const [shouldRenderCircle, setShouldRenderCircle] = useState(false);
   const [formModified, setFormModified] = useState(null);
+  const [formOpen, setFormOpen] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -242,6 +243,8 @@ function MapContainer() {
               eventId={selectedEventId}
               formModified={formModified}
               setFormModified={setFormModified}
+              formOpen={formOpen}
+              setFormOpen={setFormOpen}
             />
           )}
 
@@ -252,6 +255,7 @@ function MapContainer() {
               open={sudoActionsOpen}
               onClose={handleSudoActionsPopupClose}
               setFormModified={setFormModified}
+              setFormOpen={setFormOpen}
             />
           )}
         </>

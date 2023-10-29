@@ -12,6 +12,7 @@ export default function SudoActions({
   open,
   onClose,
   setFormModified,
+  setFormOpen,
 }) {
   const [formInfo, setFormInfo] = useState({ pin: "" });
 
@@ -82,6 +83,7 @@ export default function SudoActions({
         setFormModified(form);
         // close
         onClose();
+        setFormOpen(true);
       })
       .catch((error) => {
         console.error(error);

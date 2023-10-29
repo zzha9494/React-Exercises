@@ -32,12 +32,15 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Stack from "@mui/material/Stack";
 import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
+import { setEvents } from "../../slices/globalSlice";
 
 const steps = ["Basic Information", "Item Detail", "Time & PIN code"];
 // dayjs.extend(timezone)
 // dayjs.extend(utc);
 
 export default function FormContainer({
+  formOpen,
+  setFormOpen,
   eventId,
   formModified,
   setFormModified,
@@ -62,7 +65,7 @@ export default function FormContainer({
         category: formModified.items[0].category,
         description: formModified.items[0].description,
         time: formModified.startTime,
-        image: formModified.item[0].imageBase64,
+        // image: formModified.item[0].imageBase64,
         date: formModified.startTime,
         endDate: formModified.endTime,
         endTime: formModified.endTime,
@@ -75,12 +78,36 @@ export default function FormContainer({
 
       setFormModified(null);
     }
-  }, []);
+  }, [formModified]);
+
+  const getEventsLocation = async (color) => {
+    try {
+      const response = await fetch("http://localhost:8080/api/event/get", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: color ? JSON.stringify({ color: color }) : JSON.stringify({}),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const res = await response.json();
+      console.log(Object.values(res));
+
+      dispatch(setEvents(Object.values(res)));
+    } catch (error) {
+      console.error("Error fetching announcements:", error);
+    }
+  };
 
   function reset() {
     dispatch(setMarkerPosition(null));
     setActiveStep(0);
     setFormInfo({});
+    getEventsLocation();
   }
   const handleNext = () => {
     if (activeStep == 0) {
@@ -242,7 +269,7 @@ export default function FormContainer({
 
   return (
     <Modal
-      open={markerPosition !== null && vm === "volunteer"}
+      open={(formOpen || markerPosition != null) && vm === "volunteer"}
       className="modal"
     >
       <Paper
@@ -258,6 +285,7 @@ export default function FormContainer({
             aria-label="delete"
             onClick={() => {
               reset();
+              setFormOpen(false);
             }}
           >
             <CloseIcon />

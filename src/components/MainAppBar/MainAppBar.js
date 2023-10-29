@@ -65,7 +65,6 @@ export default function MainAppBar() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         setweather(data);
       })
       .catch((error) => {

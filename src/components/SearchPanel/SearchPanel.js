@@ -12,7 +12,6 @@ function SearchPanel({}) {
   const [searchTerm, setSearchTerm] = useState("");
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
-    console.log(e.target.value);
   };
 
   const getEventsLocation = async (keywords) => {
@@ -31,7 +30,6 @@ function SearchPanel({}) {
 
       const res = await response.json();
 
-      console.log("events", Object.values(res));
       dispatch(setEvents(Object.values(res)));
     } catch (error) {
       console.error("Error fetching announcements:", error);

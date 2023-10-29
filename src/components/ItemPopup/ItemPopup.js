@@ -49,7 +49,6 @@ function ItemPopup({ open, onClose, id, selectedId }) {
 
           const res = await response.json();
 
-          console.log(res);
           setevent(res);
 
           const currentTime = new Date();

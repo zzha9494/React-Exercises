@@ -153,7 +153,6 @@ function MapContainer() {
       const events = await response.json();
       const eventsArray = Object.keys(events).map((key) => events[key]);
 
-      console.log("events", eventsArray);
       dispatch(setEvents(eventsArray));
     } catch (error) {
       console.error("Error fetching announcements:", error);

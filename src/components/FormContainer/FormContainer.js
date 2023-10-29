@@ -49,7 +49,7 @@ export default function FormContainer({
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (formModified) {
       setFormInfo({
         firstName: formModified.volunteer.firstName,
@@ -113,7 +113,9 @@ export default function FormContainer({
 
     if (activeStep + 1 === steps.length) {
       formInfo.date = formInfo.date ? formInfo.date : new dayjs();
-      formInfo.position ? formInfo.position : markerPosition;
+      formInfo.position = formInfo.position
+        ? formInfo.position
+        : markerPosition;
 
       let startTime = formInfo.time
         .year(formInfo.date.year())

@@ -111,9 +111,7 @@ export default function SudoActions({
         }
       })
       .then((form) => {
-        // set the form here
         setFormModified(form);
-        // close
         onClose();
         setFormOpen(true);
       })

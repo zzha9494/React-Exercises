@@ -35,8 +35,6 @@ import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
 import { setEvents } from "../../slices/globalSlice";
 
 const steps = ["Basic Information", "Item Detail", "Time & PIN code"];
-// dayjs.extend(timezone)
-// dayjs.extend(utc);
 
 export default function FormContainer({
   formOpen,
@@ -171,24 +169,6 @@ export default function FormContainer({
       }
 
       if (true) {
-        // for uploading image, currently do not know how it works.
-        // let testformInfo = {
-        //   firstName: "John",
-        //   lastName: "West",
-        //   phone: "123456",
-        //   email: "test@test.com",
-        //   itemName: "water",
-        //   category: "Drinks",
-        //   description: "ddd",
-        //   time: "2023-10-09T13:05:00.000Z",
-        //   pin: "1111",
-        //   date: "2023-10-10T08:23:14.317Z",
-        //   position: {
-        //     lat: -33.8651650542566,
-        //     lng: 151.20987461480462,
-        //   },
-        // };
-
         let form = {
           startTime: startTime,
           endTime: endTime,

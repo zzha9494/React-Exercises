@@ -57,21 +57,18 @@ function ToggleButtons() {
 export default function MainAppBar() {
   const [weather, setweather] = useState(null);
   useEffect(() => {
-    // 发起GET请求
     fetch("http://localhost:8080/api/weather/get")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json(); // 将响应解析为JSON
+        return response.json();
       })
       .then((data) => {
-        // 处理响应数据
         console.log(data);
         setweather(data);
       })
       .catch((error) => {
-        // 处理错误
         console.error("There was a problem with the fetch operation:", error);
       });
   }, []);

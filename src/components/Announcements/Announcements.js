@@ -39,9 +39,8 @@ export default function Announcements() {
           throw new Error("Network response was not ok");
         }
 
-        const announcements = await response.json(); // 解析JSON响应
+        const announcements = await response.json();
 
-        // console.log("Received announcements:", announcements);
         setAnnouncements(
           announcements,
           announcements.sort((a, b) => {
@@ -50,7 +49,6 @@ export default function Announcements() {
             return dateB - dateA;
           }),
         );
-        // 在这里处理响应数据
       } catch (error) {
         console.error("Error fetching announcements:", error);
         enqueueSnackbar("Error fetching announcements", {

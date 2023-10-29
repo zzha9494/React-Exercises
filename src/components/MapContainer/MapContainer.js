@@ -95,7 +95,6 @@ function MapContainer() {
   }, []);
   const localPos = useSelector((state) => state.global.markerPosition);
 
-  // const [localPos, setLocalPos] = React.useSelector(null);
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyBw1ephcAXQqGUX7nDxGkw5E-3uIE_ZAno",
@@ -104,7 +103,6 @@ function MapContainer() {
   const [map, setMap] = React.useState(null);
 
   const onLoad = React.useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
     const bounds = new window.google.maps.LatLngBounds(center);
     map.fitBounds(bounds);
 
@@ -121,7 +119,6 @@ function MapContainer() {
     }
     if (vm === "homeless") {
       if (e.id) {
-        // meaning the bypass event is our event
         setItemPopupOpen(true);
         setselectedId(e.id);
       }
@@ -136,7 +133,6 @@ function MapContainer() {
     setsudoActionsOpen(false);
   }
 
-  // get events location
   const getEventsLocation = async () => {
     try {
       const response = await fetch("http://localhost:8080/api/event/get", {
@@ -151,15 +147,11 @@ function MapContainer() {
         throw new Error("Network response was not ok");
       }
 
-      const events = await response.json(); // 解析JSON响应
+      const events = await response.json();
       const eventsArray = Object.keys(events).map((key) => events[key]);
-
-      // 确保 events 是一个数组，如果不是数组，则将其转换为数组
 
       console.log("events", eventsArray);
       dispatch(setEvents(eventsArray));
-
-      // 在这里处理响应数据
     } catch (error) {
       console.error("Error fetching announcements:", error);
     }

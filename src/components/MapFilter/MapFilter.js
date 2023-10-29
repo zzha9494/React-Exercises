@@ -14,7 +14,7 @@ import { setEvents } from "../../slices/globalSlice";
 function ValueLabelComponent(props) {
   const { children, value } = props;
   return (
-    <Tooltip enterTouchDelay={0} placement="top" title={value}>
+    <Tooltip enterTouchDelay={0} placement="top" title={`${value} km`}>
       {children}
     </Tooltip>
   );
@@ -112,6 +112,9 @@ function MapFilter({ events1, setEvents1, setRadius }) {
             }}
             aria-label="custom thumb label"
             defaultValue={0}
+            min={0}
+            max={15}
+            step={1}
             sx={{ width: "200px" }}
             onChange={(e) => setRadius(e.target.value)}
           />

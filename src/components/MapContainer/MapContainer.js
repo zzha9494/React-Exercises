@@ -8,7 +8,11 @@ import {
 
 import "./MapContainer.scss";
 import FormContainer from "../FormContainer/FormContainer";
-import { markerPosition, setMarkerPosition } from "../../slices/globalSlice";
+import {
+  markerPosition,
+  setEvents,
+  setMarkerPosition,
+} from "../../slices/globalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import MapFilter from "../MapFilter/MapFilter";
 import SearchPanel from "../SearchPanel/SearchPanel";
@@ -73,7 +77,8 @@ function MapContainer() {
   const id = itemPopupOpen ? "simple-popover" : undefined;
   const id1 = sudoActionsOpen ? "simple-popover" : undefined;
   const [selectedId, setselectedId] = useState(null);
-  const [events, setEvents] = useState([]);
+  const events = useSelector((state) => state.global.events);
+
   const [radius, setRadius] = useState(0);
   const [shouldRenderCircle, setShouldRenderCircle] = useState(false);
   const [formModified, setFormModified] = useState(null);
@@ -150,7 +155,7 @@ function MapContainer() {
       // 确保 events 是一个数组，如果不是数组，则将其转换为数组
 
       console.log("events", eventsArray);
-      setEvents(eventsArray);
+      dispatch(setEvents(eventsArray));
 
       // 在这里处理响应数据
     } catch (error) {
@@ -213,12 +218,12 @@ function MapContainer() {
           {vm === "homeless" && (
             <>
               <div className="searchPanelBox">
-                <SearchPanel setEvents={setEvents} />
+                <SearchPanel />
               </div>
               <div className="mapFilterBox">
                 <MapFilter
                   events={events}
-                  setEvents={setEvents}
+                  setEvents={() => {}}
                   setRadius={setRadius}
                 />
               </div>

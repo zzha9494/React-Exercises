@@ -5,10 +5,14 @@ import Slider from "@mui/material/Slider";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { teal, red, indigo, blue, grey, yellow } from "@mui/material/colors";
 import ColorButton from "../ColorButton";
-
+import LunchDiningIcon from "@mui/icons-material/LunchDining";
+import CoffeeIcon from "@mui/icons-material/Coffee";
+import MedicationIcon from "@mui/icons-material/Medication";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { useDispatch, useSelector } from "react-redux";
+import { setEvents } from "../../slices/globalSlice";
 function ValueLabelComponent(props) {
   const { children, value } = props;
-
   return (
     <Tooltip enterTouchDelay={0} placement="top" title={value}>
       {children}
@@ -16,7 +20,10 @@ function ValueLabelComponent(props) {
   );
 }
 
-function MapFilter({ events, setEvents, setRadius }) {
+function MapFilter({ events1, setEvents1, setRadius }) {
+  const dispatch = useDispatch();
+  const events = useSelector((state) => state.global.events);
+
   const getEventsLocation = async (color) => {
     try {
       const response = await fetch("http://localhost:8080/api/event/get", {
@@ -31,11 +38,10 @@ function MapFilter({ events, setEvents, setRadius }) {
         throw new Error("Network response was not ok");
       }
 
-      const events = await response.json();
-      const eventsArray = Object.keys(events).map((key) => events[key]);
+      const res = await response.json();
+      console.log(Object.values(res));
 
-      console.log("events", eventsArray);
-      setEvents(eventsArray);
+      dispatch(setEvents(Object.values(res)));
     } catch (error) {
       console.error("Error fetching announcements:", error);
     }
@@ -53,7 +59,7 @@ function MapFilter({ events, setEvents, setRadius }) {
           <Stack direction="row" spacing={1} sx={{ mt: 1, mb: 1 }}>
             <ColorButton
               variant="contained"
-              startIcon={<ShoppingCartOutlinedIcon />}
+              startIcon={<CoffeeIcon />}
               myColor={teal}
               onClick={() => {
                 getEventsLocation("green");
@@ -63,7 +69,7 @@ function MapFilter({ events, setEvents, setRadius }) {
             </ColorButton>
             <ColorButton
               variant="contained"
-              startIcon={<ShoppingCartOutlinedIcon />}
+              startIcon={<LunchDiningIcon />}
               myColor={red}
               onClick={() => {
                 getEventsLocation("red");
@@ -73,7 +79,7 @@ function MapFilter({ events, setEvents, setRadius }) {
             </ColorButton>
             <ColorButton
               variant="contained"
-              startIcon={<ShoppingCartOutlinedIcon />}
+              startIcon={<MedicationIcon />}
               myColor={blue}
               onClick={() => {
                 getEventsLocation("blue");
@@ -85,7 +91,7 @@ function MapFilter({ events, setEvents, setRadius }) {
           <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
             <ColorButton
               variant="contained"
-              startIcon={<ShoppingCartOutlinedIcon />}
+              startIcon={<MoreHorizIcon />}
               myColor={yellow}
               onClick={() => {
                 getEventsLocation("yellow");
@@ -126,7 +132,6 @@ function MapFilter({ events, setEvents, setRadius }) {
           <Button
             variant="contained"
             sx={{ textTransform: "none" }}
-            startIcon={<ShoppingCartOutlinedIcon />}
             onClick={() => getEventsLocation()}
           >
             Show all items

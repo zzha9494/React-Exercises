@@ -3,8 +3,12 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { SvgIcon } from "@mui/material";
 import { ReactComponent as SearchIcon } from "../../assets/search.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { setEvents } from "../../slices/globalSlice";
 
-function SearchPanel({ setEvents }) {
+function SearchPanel({}) {
+  const events = useSelector((state) => state.global.events);
+  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
@@ -25,11 +29,10 @@ function SearchPanel({ setEvents }) {
         throw new Error("Network response was not ok");
       }
 
-      const events = await response.json();
-      const eventsArray = Object.keys(events).map((key) => events[key]);
+      const res = await response.json();
 
-      console.log("events", eventsArray);
-      setEvents(eventsArray);
+      console.log("events", Object.values(res));
+      dispatch(setEvents(Object.values(res)));
     } catch (error) {
       console.error("Error fetching announcements:", error);
     }

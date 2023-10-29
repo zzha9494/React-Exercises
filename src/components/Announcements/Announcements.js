@@ -82,61 +82,66 @@ export default function Announcements() {
   };
 
   return (
-    <>
-      <IconButton
-        size="large"
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        sx={{ mr: 2 }}
-        onClick={handleAnnouncementOpen}
-      >
-        <StyledBadge badgeContent={announcements.length} color="secondary">
-          <CampaignIcon />
-        </StyledBadge>
-      </IconButton>
-      {announcements.length > 0 && (
-        <Typography
-          variant="subtitle2"
-          sx={{
-            maxWidth: 300,
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
+    announcements.length > 0 && (
+      <>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+          onClick={handleAnnouncementOpen}
+        >
+          <StyledBadge badgeContent={announcements.length} color="secondary">
+            <CampaignIcon />
+          </StyledBadge>
+        </IconButton>
+        {announcements.length > 0 && (
+          <Typography
+            variant="subtitle2"
+            sx={{
+              maxWidth: 300,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {announcements[0].content} {/* 渲染公告的 content 属性 */}
+          </Typography>
+        )}
+        <Popover
+          open={annoucementOpen}
+          anchorEl={anchorEl}
+          onClose={handleAnnouncementClose}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
           }}
         >
-          {announcements[0].content} {/* 渲染公告的 content 属性 */}
-        </Typography>
-      )}
-      <Popover
-        open={annoucementOpen}
-        anchorEl={anchorEl}
-        onClose={handleAnnouncementClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      >
-        <List sx={{ width: 365 }}>
-          {announcements.map((item) => {
-            return (
-              <ListItem key={item.id}>
-                <Stack>
-                  <Typography variant="subtitle2">{item.content}</Typography>
-                  &nbsp;
-                  <Typography variant="caption" color="gray">
-                    {format(new Date(item.postTime), "hh:mm:ss a, MMM d, yyyy")}
-                  </Typography>
-                </Stack>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Popover>
-    </>
+          <List sx={{ width: 365 }}>
+            {announcements.map((item) => {
+              return (
+                <ListItem key={item.id}>
+                  <Stack>
+                    <Typography variant="subtitle2">{item.content}</Typography>
+                    &nbsp;
+                    <Typography variant="caption" color="gray">
+                      {format(
+                        new Date(item.postTime),
+                        "hh:mm:ss a, MMM d, yyyy",
+                      )}
+                    </Typography>
+                  </Stack>
+                </ListItem>
+              );
+            })}
+          </List>
+        </Popover>
+      </>
+    )
   );
 }

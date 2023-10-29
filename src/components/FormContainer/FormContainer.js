@@ -114,7 +114,8 @@ export default function FormContainer({
           formInfo.firstName &&
           formInfo.lastName &&
           formInfo.phone &&
-          formInfo.email
+          formInfo.email &&
+          formInfo.event_description
         )
       ) {
         enqueueSnackbar("Please input information.", {
@@ -494,7 +495,7 @@ function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
               alignItems: "center",
             }}
           >
-            {formInfo.url ? (
+            {formInfo.image ? (
               <img src={formInfo.image} alt="Uploaded photo" />
             ) : (
               <ImageIcon sx={{ fontSize: 100, color: "#d3d3d3" }} />
@@ -512,15 +513,11 @@ function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
               type="file"
               onChange={(event) => {
                 const file = event.target.files[0];
-                const url = URL.createObjectURL(file);
-
                 const reader = new FileReader();
                 reader.onload = () => {
                   const base64String = reader.result;
                   setFormInfo({
                     ...formInfo,
-                    file: file,
-                    url: url,
                     image: base64String,
                   });
                 };

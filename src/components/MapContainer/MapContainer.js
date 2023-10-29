@@ -14,7 +14,7 @@ import MapFilter from "../MapFilter/MapFilter";
 import SearchPanel from "../SearchPanel/SearchPanel";
 import ItemPopup from "../ItemPopup/ItemPopup";
 import SudoActions from "../SudoActions/SudoActions";
-
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 const containerStyle = {
   width: "100%",
   height: "92vh",
@@ -72,10 +72,12 @@ function MapContainer() {
   const [selectedEventId, setselectedEventId] = useState(null);
   const id = itemPopupOpen ? "simple-popover" : undefined;
   const id1 = sudoActionsOpen ? "simple-popover" : undefined;
+  const [selectedId, setselectedId] = useState(null);
   const [events, setEvents] = useState([]);
   const [radius, setRadius] = useState(0);
   const [shouldRenderCircle, setShouldRenderCircle] = useState(false);
   const [formModified, setFormModified] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const delayRender = setTimeout(() => {
@@ -84,9 +86,9 @@ function MapContainer() {
 
     return () => clearTimeout(delayRender);
   }, []);
+  const localPos = useSelector((state) => state.global.markerPosition);
 
-  const [localPos, setLocalPos] = React.useState(null);
-  const dispatch = useDispatch();
+  // const [localPos, setLocalPos] = React.useSelector(null);
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyBw1ephcAXQqGUX7nDxGkw5E-3uIE_ZAno",
@@ -107,17 +109,21 @@ function MapContainer() {
   }, []);
 
   const handleMapClick = (e) => {
-    setLocalPos({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-    console.log({ lat: e.latLng.lat(), lng: e.latLng.lng() });
-    setItemPopupOpen(true);
-    setTimeout(() => {
+    if (vm === "volunteer") {
       dispatch(setMarkerPosition({ lat: e.latLng.lat(), lng: e.latLng.lng() }));
-      // setLocalPos(null);
-    }, 500);
+    }
+    if (vm === "homeless") {
+      if (e.id) {
+        // meaning the bypass event is our event
+        setItemPopupOpen(true);
+        setselectedId(e.id);
+      }
+    }
   };
 
   function handlePopupClose() {
     setItemPopupOpen(false);
+    dispatch(setMarkerPosition(null));
   }
   function handleSudoActionsPopupClose() {
     setsudoActionsOpen(false);
@@ -189,12 +195,15 @@ function MapContainer() {
           events.map((event) => {
             return (
               <Marker
-                position={{ lat: event.locationX, lng: event.locationY }}
+                position={{ lat: event.latitude, lng: event.longitude }}
                 aria-describedby={id1}
                 onClick={() => {
                   if (vm === "volunteer") {
                     setsudoActionsOpen(true);
                     setselectedEventId(event.id);
+                  }
+                  if (vm === "homeless") {
+                    handleMapClick(event);
                   }
                 }}
               />
@@ -213,13 +222,13 @@ function MapContainer() {
                   setRadius={setRadius}
                 />
               </div>
-              <div className="itemPopBox">
-                <ItemPopup
-                  open={itemPopupOpen}
-                  onClose={handlePopupClose}
-                  id={id}
-                />
-              </div>
+              <div className="itemPopBox"></div>
+              <ItemPopup
+                open={itemPopupOpen}
+                onClose={handlePopupClose}
+                id={id}
+                selectedId={selectedId} //event id
+              />
             </>
           )}
 

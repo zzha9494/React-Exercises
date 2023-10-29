@@ -18,6 +18,7 @@ export const globalSlice = createSlice({
     setMarkerPosition: (state, action) => {
       state.markerPosition = action.payload;
     },
+
     // setFormState: (state, action) => {
     //   state.formInfo = action.payload;
     // },

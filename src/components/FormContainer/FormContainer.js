@@ -234,7 +234,12 @@ export default function FormContainer({
           <Typography variant="h6" sx={{ p: 0, flex: 1 }}>
             Submit an item
           </Typography>
-          <IconButton aria-label="delete" onClick={() => reset()}>
+          <IconButton
+            aria-label="delete"
+            onClick={() => {
+              reset();
+            }}
+          >
             <CloseIcon />
           </IconButton>
         </Stack>

@@ -7,7 +7,7 @@ Our app is using the GoogleMap API. You should get your own token and put it in 
 ```js
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBw1ephcAXQqGUX7nDxGkw5E-3uIE_ZAno",
+    googleMapsApiKey: "YOUR_API_KEY",
   });
 ```
 

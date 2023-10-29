@@ -36,10 +36,9 @@ function ItemPopup({ open, onClose, id, selectedId }) {
           const response = await fetch("http://localhost:8080/api/event/info", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json", // Set the Content-Type header
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              // Convert your data to a JSON string
               eventId: selectedId,
             }),
           });
@@ -48,25 +47,19 @@ function ItemPopup({ open, onClose, id, selectedId }) {
             throw new Error("Network response was not ok");
           }
 
-          const res = await response.json(); // 解析JSON响应
+          const res = await response.json();
 
           console.log(res);
           setevent(res);
 
-          // 获取当前时间
           const currentTime = new Date();
 
-          // 假设 event.endTime 是事件的结束时间
           const eventEndTime = new Date(res.endTime);
 
-          // 计算时间差（以毫秒为单位）
           const timeDiff = eventEndTime - currentTime;
 
-          // 将时间差转换为天数
           const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
           setdaysRemaining(daysRemaining);
-
-          // 在这里处理响应数据
         } catch (error) {
           console.error("Error fetching event:", error);
           enqueueSnackbar("Error fetching event", {

@@ -22,10 +22,6 @@ export const globalSlice = createSlice({
     setEvents: (state, action) => {
       state.events = action.payload;
     },
-
-    // setFormState: (state, action) => {
-    //   state.formInfo = action.payload;
-    // },
   },
 });
 

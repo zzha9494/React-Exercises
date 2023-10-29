@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# Care Connect - React Webapp ⚛️
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Attention ⚠️
 
-## Available Scripts
+Our app is using the GoogleMap API. You should get your own token and put it in the MapContainer component
 
-In the project directory, you can run:
+```js
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyBw1ephcAXQqGUX7nDxGkw5E-3uIE_ZAno",
+  });
+```
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Requirements
 
-### `npm test`
+ How to Install Node.js
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Node.js is a popular JavaScript runtime environment that allows you to run JavaScript code on your computer. Follow these steps to install Node.js on your system.
 
-### `npm run build`
+## Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Before you begin, ensure that you have administrative access to your computer, and you are connected to the internet.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation Steps
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Download Node.js Installer:**
 
-### `npm run eject`
+   Visit the official Node.js website at [nodejs.org](https://nodejs.org/). 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. **Run the Installer:**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   - **For Windows:**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+     Run the downloaded Windows Installer executable (.msi) file. 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   - **For macOS:**
 
-## Learn More
+     Open the downloaded .pkg file, and a macOS installer window will appear.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   - **For Linux:**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+     Extract the downloaded binary archive to your preferred location. You might need SUDO previledge
 
-### Code Splitting
+3. **Verify Installation:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   After installation, open your system's terminal or command prompt and enter the following commands to verify that Node.js and npm (Node Package Manager) were installed correctly:
 
-### Analyzing the Bundle Size
+   ```
+   shellCopy code
+   node -v
+   npm -v
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   These commands should display the installed Node.js version and npm version without any errors.
 
-### Making a Progressive Web App
+### Libraries & Dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+*below are just a part of the libraries worth to be mentioned*
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- **Notistack** - a library required for our alert messages UI
+- **GoogleMap API** - the library built for configuring details inside Google Map
+- **React-Redux** - the library we use to manage the global states
 
-### Deployment
+#### How to install these dependencies?
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+simply run: 👇
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+npm install
+```

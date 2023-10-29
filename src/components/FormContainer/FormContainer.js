@@ -170,6 +170,7 @@ export default function FormContainer({
 
       if (true) {
         let form = {
+          id: formInfo.eventId,
           startTime: startTime,
           endTime: endTime,
           modifyCode: formInfo.pin,
@@ -219,6 +220,7 @@ export default function FormContainer({
                 variant: "success",
               });
               reset();
+              setFormOpen(false);
             } else {
               throw new Error("Network response was not ok");
             }

@@ -7,6 +7,7 @@ import {
 } from "@react-google-maps/api";
 
 import "./MapContainer.scss";
+import FormContainer from "./components/FormContainer/FormContainer";
 import { markerPosition, setMarkerPosition } from "../../slices/globalSlice";
 import { useSelector, useDispatch } from "react-redux";
 import MapFilter from "../MapFilter/MapFilter";
@@ -220,6 +221,9 @@ function MapContainer() {
               </div>
             </>
           )}
+
+          {vm === "volunteer" && <FormContainer />}
+
           {vm === "volunteer" && (
             <SudoActions
               id={id1}

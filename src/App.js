@@ -18,9 +18,8 @@ function App() {
       <div className="App">
         <MainAppBar />
         <SnackbarProvider>
-          {vm === "volunteer" && <FormContainer />}
+          <MapContainer />
         </SnackbarProvider>
-        <MapContainer />
       </div>
     </ThemeProvider>
   );

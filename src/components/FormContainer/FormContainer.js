@@ -33,7 +33,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Stack from "@mui/material/Stack";
 import { SnackbarProvider, VariantType, useSnackbar } from "notistack";
 
-const steps = ["Basic Information", "Item(s) Detail", "Time & PIN code"];
+const steps = ["Basic Information", "Item Detail", "Time & PIN code"];
 // dayjs.extend(timezone)
 // dayjs.extend(utc);
 
@@ -56,12 +56,16 @@ export default function FormContainer({
         lastName: formModified.volunteer.secondName,
         phone: formModified.volunteer.phoneNumber,
         email: formModified.volunteer.email,
+        address: formModified.location.address,
+        event_description: formModified.event_description,
         itemName: formModified.items[0].name,
         category: formModified.items[0].category,
         description: formModified.items[0].description,
         time: formModified.startTime,
         image: formModified.item[0].imageBase64,
         date: formModified.startTime,
+        endDate: formModified.endTime,
+        endTime: formModified.endTime,
         position: {
           lat: formModified.location.latitude,
           lng: formModified.location.longitude,
@@ -128,6 +132,17 @@ export default function FormContainer({
         return;
       }
 
+      let endTime = formInfo.endTime
+        .year(formInfo.endDate.year())
+        .month(formInfo.endDate.month())
+        .date(formInfo.endDate.date());
+      if (endTime < startTime) {
+        enqueueSnackbar("Time invalid.", {
+          variant: "info",
+        });
+        return;
+      }
+
       if (true) {
         // for uploading image, currently do not know how it works.
         // let testformInfo = {
@@ -149,9 +164,10 @@ export default function FormContainer({
 
         let form = {
           startTime: startTime,
-          // endTime: "2023-10-18T10:53:51.245+00:00",
+          endTime: endTime,
           modifyCode: formInfo.pin,
-          // description: "sample description",
+          description: formInfo.event_description,
+
           volunteer: {
             firstName: formInfo.firstName,
             secondName: formInfo.lastName,
@@ -159,6 +175,8 @@ export default function FormContainer({
             phoneNumber: formInfo.phone,
           },
           location: {
+            city: "Sydney",
+            address: formInfo.address,
             latitude: formInfo.position.lat,
             longitude: formInfo.position.lng,
           },
@@ -322,6 +340,15 @@ function StepOne({ formInfo, handleFieldChange }) {
             onChange={handleFieldChange}
             required
           />
+          <TextField
+            id="address"
+            label="Address"
+            type="search"
+            sx={{ width: "90%", m: 1 }}
+            value={formInfo?.address}
+            onChange={handleFieldChange}
+            required
+          />
         </Grid>
         <Grid
           item
@@ -347,6 +374,17 @@ function StepOne({ formInfo, handleFieldChange }) {
             type="search"
             sx={{ width: "90%", m: 1 }}
             value={formInfo?.email}
+            onChange={handleFieldChange}
+            required
+          />
+          <TextField
+            id="event_description"
+            label="Event Description"
+            multiline
+            rows={4}
+            type="search"
+            sx={{ width: "90%", m: 1 }}
+            value={formInfo?.event_description}
             onChange={handleFieldChange}
             required
           />
@@ -419,7 +457,7 @@ function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
           </TextField>
           <TextField
             id="description"
-            label="Description and Address"
+            label="Item Description"
             multiline
             rows={5}
             sx={{ width: "90%", m: 1 }}
@@ -492,10 +530,10 @@ function StepTwo({ formInfo, handleFieldChange, setFormInfo }) {
 function StepThree({ formInfo, setFormInfo }) {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2} sx={{ pt: 4 }}>
+      <Grid container spacing={2} sx={{ pt: 2 }}>
         <Grid item xs={6}>
           <Typography variant="h6" sx={{ p: 1 }}>
-            Date & Time
+            Start Time
           </Typography>
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -514,6 +552,28 @@ function StepThree({ formInfo, setFormInfo }) {
           </LocalizationProvider>
         </Grid>
         <Grid item xs={6}>
+          <Typography variant="h6" sx={{ p: 1 }}>
+            End Time
+          </Typography>
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              sx={{ width: "60%", p: 1 }}
+              value={formInfo?.endDate || new dayjs()}
+              onChange={(endDate) =>
+                setFormInfo({ ...formInfo, endDate: endDate })
+              }
+            />
+          </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <TimePicker
+              sx={{ width: "60%", p: 1 }}
+              value={formInfo?.endTime}
+              onChange={(endTime) =>
+                setFormInfo({ ...formInfo, endTime: endTime })
+              }
+            />
+          </LocalizationProvider>
           <Typography variant="h6" sx={{ p: 1 }}>
             PIN
           </Typography>

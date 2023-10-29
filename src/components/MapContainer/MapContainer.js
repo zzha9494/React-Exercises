@@ -120,8 +120,11 @@ function MapContainer() {
       if (e.id) {
         setItemPopupOpen(true);
         setselectedId(e.id);
+      } else {
+        dispatch(
+          setMarkerPosition({ lat: e.latLng.lat(), lng: e.latLng.lng() }),
+        );
       }
-      dispatch(setMarkerPosition({ lat: e.latLng.lat(), lng: e.latLng.lng() }));
     }
   };
 
